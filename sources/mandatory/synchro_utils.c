@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   synchro_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/10 17:32:42 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/26 20:35:50 by roglopes         ###   ########.fr       */
+/*   Created: 2024/09/26 21:11:29 by roglopes          #+#    #+#             */
+/*   Updated: 2024/09/26 21:15:02 by roglopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mandatory/philosophers.h"
 
-int	main(int argc, char *argv[])
+void	ft_wait_all_thread(t_table *table)
 {
-	t_table	table;
-
-	if (5 == argc || 6 == argc)
-	{
-		ft_parse_input(&table, argv);
-		ft_data_init(&table);
-		ft_dinner_start(&table);
-		clean(&table);
-	}
-	else
-	{
-		error_exit("Input Error\n"
-			YELLOW "Please enter: ./philo <no. of philos> <time_to_die>"
-			" <time_to_eat> <time_to_sleep> <max_meals> (optional)\n"
-			"For example: ./philo 5 800 200 200 7" RESET);
-	}
+	while (!ft_get_bool(&table->table_mutex, &table->all_threads_read))
+		;
 }
