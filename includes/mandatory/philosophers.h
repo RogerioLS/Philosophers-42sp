@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:57:22 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/26 21:49:54 by roglopes         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:26:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define MAGENTA "\033[1;35m"
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
+
+# define DEBUG_MODE 1
 
 /*
  * PHILO STATES
@@ -57,7 +59,7 @@ typedef enum e_opcode
 	CREATE,
 	JOIN,
 	DETACH
-}						t_opcode;
+}			t_opcode;
 
 typedef enum e_time_code
 {
@@ -87,9 +89,10 @@ typedef struct s_philosophers
 	long				meals_counter;
 	bool				full;
 	long				last_meal_time;
-	t_fork				*left_fork;
-	t_fork				*right_fork;
+	t_fork				*first_fork;
+	t_fork				*second_fork;
 	pthread_t			thread_id;
+	t_mtx				philo_mutex;
 	t_table				*table;
 }						t_philosophers;
 
@@ -108,6 +111,8 @@ typedef struct s_table
 	long				start_simulation;
 	bool				end_simulation;
 	bool				all_threads_read;
+	long				threads_running_nbr;
+	pthread_t			monitor;
 	t_mtx				table_mutex;
 	t_mtx				write_mutex;
 	t_fork				*fork;
@@ -123,7 +128,7 @@ long					ft_gettime(t_time_code time_code);
 void					ft_precise_usleep(long usec, t_table *table);
 
 // INIT*****
-void					ft_data_init(t_table *table)
+void					ft_data_init(t_table *table);
 
 	// SAFE FUNCTIONS****
 void					*ft_safe_malloc(size_t bytes);
@@ -138,5 +143,13 @@ bool					ft_get_bool(t_mtx *mutex, bool *value);
 long					ft_get_long(t_mtx *mutex, long *value);
 void					ft_set_long(t_mtx *mutex, long *dst, long value);
 bool					ft_simulation_finished(t_table *table);
+
+void					ft_write_status(t_philo_status status, t_philosophers *philo,
+						bool debug);
+void					ft_dinner_start(t_table *table);
+void					*ft_monitor_dinner(void *data);
+void					ft_increase_long(t_mtx *mutex, long *value);
+bool					ft_all_threads_running(t_mtx *mutex, long *threads, long philo_nbr);
+void					ft_clean(t_table *table);
 
 #endif

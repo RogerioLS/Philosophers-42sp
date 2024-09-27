@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   wirte.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 21:44:26 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/26 22:30:08 by roglopes         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:25:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mandatory/philosophers.h"
+
+static void	ft_write_status_debug(t_philo_status status, t_philosophers *philo, long elapsed)
+{
+	if (TAKE_FIRST_FORK == status && !ft_simulation_finished(philo->table))
+		printf(WHITE"%6ld"RESET" %d has taken the 1° fork 🍴""\t\t\tn°"YELLOW"[🍴 %d 🍴]\n"RESET, elapsed, philo->id, philo->first_fork->fork_id);
+	else if (TAKE_SECOND_FORK == status && !ft_simulation_finished(philo->table))
+		printf(WHITE"%6ld"RESET" %d has taken the 2° fork 🍴""\t\t\tn°"YELLOW"[🍴 %d 🍴]\n"RESET, elapsed, philo->id, philo->second_fork->fork_id);
+	else if (EATING == status && !ft_simulation_finished(philo->table))
+		printf(WHITE"%6ld"CYAN" %d is eating 🍖""\t\t\t"YELLOW"[🍖 %ld 🍖]\n"RESET, elapsed, philo->id, philo->meals_counter);
+	else if (SLEEPING == status && !ft_simulation_finished(philo->table))
+		printf(WHITE"%6ld"RESET" %d is sleeping 😴\n", elapsed, philo->id);
+	else if (THINKING == status && !ft_simulation_finished(philo->table))
+		printf(WHITE"%6ld"RESET" %d is thinking 🤔\n", elapsed, philo->id);
+	else if (DIED == status && !ft_simulation_finished(philo->table))
+		printf(RED"\t\t😵😵😵 %6ld %d died   😵😵😵\n"RESET, elapsed, philo->id);
+	
+		
+}
 
 void	ft_write_status(t_philo_status status, t_philosophers *philo,
 		bool debug)
@@ -22,7 +40,7 @@ void	ft_write_status(t_philo_status status, t_philosophers *philo,
 		return ;
 	ft_safe_mutex_handle(&philo->table->write_mutex, LOCK);
 	if (debug)
-		write_status_debug(status, philo, elapsed);
+		ft_write_status_debug(status, philo, elapsed);
 	else
 	{
 		if ((TAKE_FIRST_FORK == status || TAKE_SECOND_FORK == status)

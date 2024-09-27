@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 23:09:49 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/26 20:26:44 by roglopes         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:32:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ static void	ft_handle_thread_error(int status, t_opcode opcode)
 		ft_error_exit("No resources to create another thread.");
 	else if (EPERM == status)
 		ft_error_exit("The caller does not have appropriate premission.\n");
-	else if (EINVAL == status)
+	else if (EINVAL == status && CREATE == opcode)
 		ft_error_exit("The valeu specified by attr is invalid.");
-	else if (EINVAL == status)
+	else if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
 		ft_error_exit("The valeu specified by thread is not joinable.\n");
 	else if (ESRCH == status)
 		ft_error_exit("No thread could be found corresponding to tha.");

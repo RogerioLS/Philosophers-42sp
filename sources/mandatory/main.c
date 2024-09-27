@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:32:42 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/26 20:35:50 by roglopes         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:23:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	main(int argc, char *argv[])
 		ft_parse_input(&table, argv);
 		ft_data_init(&table);
 		ft_dinner_start(&table);
-		clean(&table);
+		ft_clean(&table);
 	}
 	else
 	{
-		error_exit("Input Error\n"
+		ft_error_exit("Input Error\n"
 			YELLOW "Please enter: ./philo <no. of philos> <time_to_die>"
 			" <time_to_eat> <time_to_sleep> <max_meals> (optional)\n"
 			"For example: ./philo 5 800 200 200 7" RESET);
