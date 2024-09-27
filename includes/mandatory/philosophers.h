@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:57:22 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/27 15:26:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 16:06:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,7 @@ void					*ft_monitor_dinner(void *data);
 void					ft_increase_long(t_mtx *mutex, long *value);
 bool					ft_all_threads_running(t_mtx *mutex, long *threads, long philo_nbr);
 void					ft_clean(t_table *table);
+void					ft_thinking(t_philosophers *philo, bool pre_simulation);
+void    				ft_de_synchronize_philos(t_philosophers *philo);
 
 #endif

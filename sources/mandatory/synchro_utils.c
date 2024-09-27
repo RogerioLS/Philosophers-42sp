@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 21:11:29 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/27 14:10:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 16:04:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,18 @@ void	ft_increase_long(t_mtx *mutex, long *value)
 	ft_safe_mutex_handle(mutex, LOCK);
 	(*value)++;
 	ft_safe_mutex_handle(mutex, UNLOCK);
+}
+
+void    ft_de_synchronize_philos(t_philosophers *philo)
+{
+    if (philo->table->philo_nbr % 2 == 0)
+    {
+        if (philo->id % 2 == 0)
+            ft_precise_usleep(3e4, philo->table);
+    }
+    else
+    {
+        if (philo->id % 2)
+            ft_thinking(philo, true);
+    }
 }

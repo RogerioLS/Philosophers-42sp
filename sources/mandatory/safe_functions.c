@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 23:09:49 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/27 12:32:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 16:16:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	*ft_safe_malloc(size_t bytes)
 
 	ret = malloc(bytes);
 	if (NULL == ret)
+	{
 		ft_error_exit("Error with the malloc");
+		return (NULL);
+	}
 	return (ret);
 }
 

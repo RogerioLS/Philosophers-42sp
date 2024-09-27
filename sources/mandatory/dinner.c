@@ -6,11 +6,29 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 20:33:52 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/27 15:08:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 16:05:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mandatory/philosophers.h"
+
+void	ft_thinking(t_philosophers *philo, bool pre_simulation)
+{
+	long	t_eat;
+	long	t_sleep;
+	long	t_think;
+
+	if (!pre_simulation)
+		ft_write_status(THINKING, philo, DEBUG_MODE);
+	if (philo->table->philo_nbr % 2 == 0)
+		return ;
+	t_eat = philo->table->time_to_eat;
+	t_sleep = philo->table->time_to_sleep;
+	t_think = t_eat * 2 - t_sleep;
+	if (t_think < 0)
+		t_think = 0;
+	ft_precise_usleep(t_think * 0.42, philo->table);
+}
 
 void	*ft_lone_philo(void *arg)
 {
@@ -51,6 +69,7 @@ void	*ft_dinner_simulation(void *data)
 	ft_wait_all_thread(philo->table);
 	ft_set_long(&philo->philo_mutex, &philo->last_meal_time, ft_gettime(MILLISECOND));
 	ft_increase_long(&philo->table->table_mutex, &philo->table->threads_running_nbr);
+	ft_de_synchronize_philos(philo);
 
 	while (!ft_simulation_finished(philo->table))
 	{
@@ -59,6 +78,7 @@ void	*ft_dinner_simulation(void *data)
 		ft_eat(philo);
 		ft_write_status(SLEEPING, philo, DEBUG_MODE);
 		ft_precise_usleep(philo->table->time_to_sleep, philo->table);
+		ft_thinking(philo, false);
 	}
 	return (NULL);
 }

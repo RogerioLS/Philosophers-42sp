@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:52:36 by codespace         #+#    #+#              #
-#    Updated: 2024/09/27 15:42:37 by codespace        ###   ########.fr        #
+#    Updated: 2024/09/27 15:43:40 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,6 @@ create_objects_dir:
 	@mkdir -p $(OBJECTS_DIR)
 
 clean:
-	@make clean -C ./libft --no-print-directory
 	@rm -rf $(OBJECTS_DIR)
 	@rm -rf $(VALGRIND_LOG)
 	@printf "$(RED)Deleted objects Mini Shell$(RESET)\n"
@@ -73,7 +72,6 @@ clean:
 fclean: clean
 	@echo "Cleaning all... 🧹"
 	@rm -rf $(NAME)
-	@make fclean -C ./libft --no-print-directory
 	@printf "$(RED)Project is deleted Mini Shell$(RESET)\n"
 	@printf "$(RED)File valgrind.log deleted$(RESET)\n"
 	@echo "✨ Cleaning complete! ✨"
