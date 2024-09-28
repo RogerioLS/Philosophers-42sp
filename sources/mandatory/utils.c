@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:50:09 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/27 15:24:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 20:19:53 by roglopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 long	ft_gettime(t_time_code time_code)
 {
-	struct timeval	current_time;
+	struct timeval	tv;
 
-	if (gettimeofday(&current_time, NULL) != 0)
+	if (gettimeofday(&tv, NULL) != 0)
 		ft_error_exit("Error: Gettimeofday failed");
-	if (time_code == SECOND)
-		return (current_time.tv_sec + (current_time.tv_usec / 1e6));
-	else if (time_code == MILLISECOND)
-		return (current_time.tv_sec * 1e3 + (current_time.tv_usec / 1e3));
-	else if (time_code == MICROSECOND)
-		return (current_time.tv_sec * 1e6 + current_time.tv_usec);
+	if (SECOND == time_code)
+		return (tv.tv_sec + (tv.tv_usec / 1e6));
+	else if (MILLISECOND == time_code)
+		return (tv.tv_sec * 1e3 + (tv.tv_usec / 1e3));
+	else if (MICROSECOND == time_code)
+		return ((tv.tv_sec * 1e6) + tv.tv_usec);
 	else
 		ft_error_exit("Wrong input to gettime!");
 	return (1337);
@@ -54,7 +54,7 @@ void	ft_clean(t_table *table)
 {
 	t_philosophers	*philo;
 	int				i;
-	
+
 	i = -1;
 	while (++i < table->philo_nbr)
 	{

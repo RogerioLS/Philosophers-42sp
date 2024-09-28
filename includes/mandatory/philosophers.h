@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:57:22 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/27 16:06:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 23:30:14 by roglopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-// https://github.com/Thuggonaut/42IC_Ring03_Philosophers
+
 # include <errno.h>
 # include <limits.h>
 # include <pthread.h>
@@ -22,8 +22,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-// ANSI Escape Sequences for text formatting*****
-# define RESET "\033[0m" // Reset to default color
+# define RESET "\033[0m"
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
@@ -32,10 +31,14 @@
 # define WHITE "\033[1;37m"
 
 # define DEBUG_MODE 1
+# define MAX_PHILOS 200
+
+typedef struct s_table	t_table;
+typedef pthread_mutex_t	t_mtx;
 
 /*
  * PHILO STATES
-*/
+ */
 typedef enum e_status
 {
 	EATING,
@@ -44,8 +47,7 @@ typedef enum e_status
 	TAKE_FIRST_FORK,
 	TAKE_SECOND_FORK,
 	DIED,
-}			t_philo_status;
-
+}						t_philo_status;
 
 /*
  * OpCode form mutex | thread functions
@@ -59,17 +61,14 @@ typedef enum e_opcode
 	CREATE,
 	JOIN,
 	DETACH
-}			t_opcode;
+}						t_opcode;
 
 typedef enum e_time_code
 {
 	SECOND,
 	MILLISECOND,
 	MICROSECOND,
-}			t_time_code;
-
-typedef pthread_mutex_t	t_mtx;
-typedef struct s_table	t_table;
+}						t_time_code;
 
 typedef struct s_fork
 {
@@ -130,7 +129,7 @@ void					ft_precise_usleep(long usec, t_table *table);
 // INIT*****
 void					ft_data_init(t_table *table);
 
-	// SAFE FUNCTIONS****
+// SAFE FUNCTIONS****
 void					*ft_safe_malloc(size_t bytes);
 void					ft_safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
 void					ft_safe_thread_handle(pthread_t *thread,
@@ -144,14 +143,15 @@ long					ft_get_long(t_mtx *mutex, long *value);
 void					ft_set_long(t_mtx *mutex, long *dst, long value);
 bool					ft_simulation_finished(t_table *table);
 
-void					ft_write_status(t_philo_status status, t_philosophers *philo,
-						bool debug);
+void					ft_write_status(t_philo_status status,
+							t_philosophers *philo, bool debug);
 void					ft_dinner_start(t_table *table);
 void					*ft_monitor_dinner(void *data);
 void					ft_increase_long(t_mtx *mutex, long *value);
-bool					ft_all_threads_running(t_mtx *mutex, long *threads, long philo_nbr);
+bool					ft_all_threads_running(t_mtx *mutex, long *threads,
+							long philo_nbr);
 void					ft_clean(t_table *table);
 void					ft_thinking(t_philosophers *philo, bool pre_simulation);
-void    				ft_de_synchronize_philos(t_philosophers *philo);
+void					ft_de_synchronize_philos(t_philosophers *philo);
 
 #endif

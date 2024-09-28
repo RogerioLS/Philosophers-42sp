@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:52:36 by codespace         #+#    #+#              #
-#    Updated: 2024/09/27 15:43:40 by codespace        ###   ########.fr        #
+#    Updated: 2024/09/27 23:43:23 by roglopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				= minishell
+NAME				= philo
 
 SOURCES_DIR			= sources/
 OBJECTS_DIR			= objects/
@@ -19,9 +19,9 @@ HEADERS				= -I ./includes/mandatory/
 
 MAIN_DIR			= $(SOURCES_DIR)mandatory/
 
-LIBFT				= ./libft/libft.a
+CFLAGS				= 
 
-CFLAGS				= -Wextra -Wall -Werror -Wunreachable-code -g3 -pthread
+CFLAGS				= -pthread -Wall -Wextra -Werror #-fsanitize=address
 CC					= gcc
 
 VALGRIND_LOG		= valgrind.log
@@ -56,9 +56,9 @@ $(OBJECTS_DIR)%.o: $(SOURCES_DIR)%.c
 	@mkdir -p $(@D)
 	@$(eval COUNT=$(shell expr $(COUNT) + 1))
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
-	@printf "$(GREEN)Compiling Mini Hell %d%%\r$(RESET)" $$(echo $$(($(COUNT) * 100 / $(words $(SOURCES_DIR)))))
+	@printf "$(GREEN)Compiling Philosophers %d%%\r$(RESET)" $$(echo $$(($(COUNT) * 100 / $(words $(SOURCES_DIR)))))
 
-$(NAME): $(OBJS) 
+$(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(HEADERS) -o $(NAME)
 
 create_objects_dir:
@@ -67,12 +67,12 @@ create_objects_dir:
 clean:
 	@rm -rf $(OBJECTS_DIR)
 	@rm -rf $(VALGRIND_LOG)
-	@printf "$(RED)Deleted objects Mini Shell$(RESET)\n"
+	@printf "$(RED)Deleted objects Philosophers$(RESET)\n"
 
 fclean: clean
 	@echo "Cleaning all... 🧹"
 	@rm -rf $(NAME)
-	@printf "$(RED)Project is deleted Mini Shell$(RESET)\n"
+	@printf "$(RED)Project is deleted Philosophers$(RESET)\n"
 	@printf "$(RED)File valgrind.log deleted$(RESET)\n"
 	@echo "✨ Cleaning complete! ✨"
 
@@ -80,14 +80,13 @@ norm:
 	@norminette -R CheckForbiddenSource
 	@echo "$(CYAN)NORMINETTE SUCESS $(RESET)"
 
-valgrind: re
+valgrind:
 	@valgrind --leak-check=full \
 	--show-reachable=yes \
 	--show-leak-kinds=all -s \
 	--track-origins=yes \
-	--suppressions=readline.supp \
 	--log-file=$(VALGRIND_LOG) \
-	./$(NAME)
+	./$(NAME) 5 800 200 200 7
 	@cat $(VALGRIND_LOG)
 
 re: fclean all

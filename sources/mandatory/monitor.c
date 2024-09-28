@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:37:13 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/27 14:36:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 23:36:01 by roglopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static bool	ft_philo_died(t_philosophers *philo)
 
 	if (ft_get_bool(&philo->philo_mutex, &philo->full))
 		return (false);
-	elapsed = ft_gettime(MILLISECOND) - ft_get_long(&philo->philo_mutex, &philo->last_meal_time);
-	t_to_die = philo->table->time_to_die / 1000;
+	elapsed = ft_gettime(MILLISECOND) - \
+	ft_get_long(&philo->philo_mutex, &philo->last_meal_time);
+	t_to_die = philo->table->time_to_die / 1e3;
 	if (elapsed > t_to_die)
 		return (true);
 	return (false);
@@ -32,7 +33,8 @@ void	*ft_monitor_dinner(void *data)
 	t_table	*table;
 
 	table = (t_table *)data;
-	while (!ft_all_threads_running(&table->table_mutex, &table->threads_running_nbr, table->philo_nbr))
+	while (!ft_all_threads_running(&table->table_mutex, \
+			&table->threads_running_nbr, table->philo_nbr))
 		;
 	while (!ft_simulation_finished(table))
 	{

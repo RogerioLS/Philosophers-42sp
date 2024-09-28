@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:15:08 by roglopes          #+#    #+#             */
-/*   Updated: 2024/09/27 12:22:46 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/27 23:19:38 by roglopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mandatory/philosophers.h"
 
-static bool	ft_is_space(char c)
+static inline bool	ft_is_space(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-static bool	ft_is_digit(char c)
+static inline bool	ft_is_digit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
@@ -61,11 +61,14 @@ void	ft_parse_input(t_table *table, char *argv[])
 {
 	table->philo_nbr = ft_atol(argv[1]);
 	table->time_to_die = ft_atol(argv[2]) * 1e3;
-	table->time_to_eat = ft_atol(argv[2]) * 1e3;
-	table->time_to_sleep = ft_atol(argv[2]) * 1e3;
-	if (table->time_to_die < 6e0 \
-		|| table->time_to_eat < 6e0 \
-		|| table->time_to_sleep < 6e0)
+	table->time_to_eat = ft_atol(argv[3]) * 1e3;
+	table->time_to_sleep = ft_atol(argv[4]) * 1e3;
+	if (table->philo_nbr > MAX_PHILOS)
+		ft_error_exit(RED "\t\tError: Chill out, you're going to freeze the system.\n \
+		If you're sure of what you're doing, change the max philos \n \
+		macro in the philosophers.h file. Current max: 200"RESET);
+	if (table->time_to_die < 6e4 || table->time_to_eat < 6e4
+		|| table->time_to_sleep < 6e4)
 		ft_error_exit("User timestamps major than 60ms");
 	if (argv[5])
 		table->nbr_limit_meals = ft_atol(argv[5]);
