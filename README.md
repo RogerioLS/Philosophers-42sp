@@ -92,14 +92,14 @@ Students are invited to use their knowledge on multithreading to write an algori
 - 🧐 ***What is a thread?***
 	- Threads can improve performance.
 	- Single threaded program
-		- One sequence of statements that executes over time ![Single threaded](image.png)
+		- One sequence of statements that executes over time
 	- Multi threaded program
 		- Multiple sequence of statements that executes over the same period of time
 		- Parallel execution:
-			- Though, not always possible to execute threads in parallel due to hard/software ![Multi threaded](image-1.png)
+			- Though, not always possible to execute threads in parallel due to hard/software
 		- Concurrent execution when parallel not possible:
 			- CPU switches back and forth bewtween multiple threads
-			- only one thread is executed at any given time. ![Not parralel](image-2.png)
+			- only one thread is executed at any given time.
 - 🧐 ***How to create a thread?***
 - We use the <pthread.h> library.
 	1. 🔸Call `pthread_create()` to create a thread.
