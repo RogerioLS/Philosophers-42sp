@@ -6,7 +6,7 @@
 #    By: roglopes <roglopes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:52:36 by codespace         #+#    #+#              #
-#    Updated: 2024/09/27 23:43:23 by roglopes         ###   ########.fr        #
+#    Updated: 2024/09/29 12:54:03 by roglopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ MAIN_DIR			= $(SOURCES_DIR)mandatory/
 
 CFLAGS				= 
 
-CFLAGS				= -pthread -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS				= -pthread -Wall -Wextra -Werror -fsanitize=address
 CC					= gcc
 
 VALGRIND_LOG		= valgrind.log
